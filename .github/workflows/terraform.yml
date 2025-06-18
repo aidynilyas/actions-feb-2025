@@ -15,7 +15,11 @@ jobs:
       with:
         repository: aidynilyas/actions-terraform
 
-    - run: ls
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
       
     
     
