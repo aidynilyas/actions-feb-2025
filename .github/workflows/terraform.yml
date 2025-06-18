@@ -17,9 +17,21 @@ jobs:
 
     - name: Installing Terraform
       uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.12.2"
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4.1.0
+      with:
+        aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ steps.creds.outputs.aws-secret-access-key }}
+        aws-region: us-east-1
 
     - name: Terraform Init
       run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
