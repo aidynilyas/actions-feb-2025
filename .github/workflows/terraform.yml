@@ -15,6 +15,9 @@ jobs:
       with:
         repository: aidynilyas/actions-terraform
 
+    - name: Installing Terraform
+      uses: hashicorp/setup-terraform@v3
+
     - name: Terraform Init
       run: terraform init
 
