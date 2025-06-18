@@ -6,6 +6,16 @@ on:
   #     - "main"
   
   workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action to perform'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
+
 
 jobs:
   deploy: 
@@ -35,8 +45,12 @@ jobs:
     - name: Terraform Plan
       run: terraform plan
 
-    - name: Terraform Apply #
-      run: terraform apply -auto-approve
+    - name: Terraform Action
+      run: |
+        if [[ "${{ inputs.action }}" == "apply" ]]; then
+          terraform apply -auto-approve
+        else
+          terraform destroy -auto-approve
       
     
     
