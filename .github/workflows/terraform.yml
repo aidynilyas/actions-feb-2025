@@ -15,27 +15,23 @@ on:
         options:
           - apply
           - destroy
+
       region:
         description: 'Terraform region'
         required: true
         default: 'us-east-1'
-        type: choice
-        options:
-          - us-east-1
-          - us-east-2
+        type: string
+        
       ami:
         description: 'Instance ami'
         required: true
-        default: 'ami-09e6f87a47903347c'
         type: string
+
       instance_type:
         description: 'Instance type'
         required: true
         default: 't2.micro'
-        type: choice
-        options:
-          - t2.micro
-          - t2.nano
+        type: string
 
 jobs:
   deploy: 
@@ -58,6 +54,14 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_ID }}
         aws-region: us-east-1
+
+    - name: Create tfvars file
+      run: |
+        cat <<EOF > terraform.tfvars
+        ami = "${{ inputs.ami }}"
+        instance_type = "${{ inputs.instance_type }}"
+        region = "${{ inputs.region }}"
+        EOF
 
     - name: Terraform Init
       run: terraform init
