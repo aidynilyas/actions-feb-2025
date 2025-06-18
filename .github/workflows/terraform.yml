@@ -51,6 +51,7 @@ jobs:
           terraform apply -auto-approve
         else
           terraform destroy -auto-approve
+        fi
       
     
     
